@@ -1,0 +1,13 @@
+# Railway 部署配置
+# 文档: https://docs.railway.com
+
+[build]
+builder = "nixpacks"
+buildCommand = "pip install -r requirements.txt"
+
+[deploy]
+startCommand = "python server.py"
+healthcheckPath = "/api/health"
+
+[service]
+name = "lesson-prep-agent"

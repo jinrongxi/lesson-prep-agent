@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能备课助手</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="app-container">
+  <!-- 侧边栏 -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h1 class="logo">智能备课助手</h1>
+      <p class="subtitle">大学金融学 AI 备课中心</p>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="section-title">快捷功能</h3>
+      <div class="quick-actions">
+        <button class="qa-btn" onclick="quickAction('备一下《投资学》第5章 CAPM 模型')">教案生成</button>
+        <button class="qa-btn" onclick="quickAction('根据教案生成 PPT 课件大纲')">课件生成</button>
+        <button class="qa-btn" onclick="quickAction('针对 CAPM 模型出5道计算题和2道论述题')">习题生成</button>
+        <button class="qa-btn" onclick="quickAction('研究一下案例教学法在金融学中的应用')">教学研究</button>
+        <button class="qa-btn" onclick="quickAction('更新仓库')">仓库维护</button>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3 class="section-title">备课仓库</h3>
+      <div class="vault-tree" id="vaultTree">
+        <div class="loading">加载中...</div>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="icon-btn" onclick="toggleSidebar()" title="收起侧边栏">◀</button>
+      <span class="version">v1.0</span>
+    </div>
+  </aside>
+
+  <!-- 主聊天区 -->
+  <main class="chat-area">
+    <div class="chat-header">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <h2>智能备课助手</h2>
+      <span class="status-indicator online">在线</span>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="welcome-message">
+        <div class="welcome-icon">📚</div>
+        <h2>欢迎使用智能备课助手</h2>
+        <p>我是面向大学金融学教师的 AI 备课助手，支持以下功能：</p>
+        <ul>
+          <li><strong>教案生成</strong> — 根据课程主题自动生成结构化教案</li>
+          <li><strong>课件大纲</strong> — 生成 PPT 课件逐页大纲</li>
+          <li><strong>习题出题</strong> — 生成练习题、计算题、案例分析题</li>
+          <li><strong>教学研究</strong> — 整理教学资源和前沿动态</li>
+          <li><strong>仓库维护</strong> — 批量更新笔记索引</li>
+        </ul>
+        <p class="hint">请直接告诉我你想做什么，例如：<br><code>备一下《投资学》第五章 CAPM 模型</code></p>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <div class="input-container">
+        <textarea
+          id="userInput"
+          class="chat-input"
+          placeholder="输入你的备课需求，如：备一下投资学第5章 CAPM..."
+          rows="1"
+          onkeydown="handleKeyDown(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="发送">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="input-hint">
+        支持自然语言交互 | 生成内容自动保存到备课仓库
+      </div>
+    </div>
+  </main>
+
+  <!-- 笔记预览面板 -->
+  <aside class="preview-panel" id="previewPanel" style="display:none">
+    <div class="preview-header">
+      <h3 id="previewTitle">笔记预览</h3>
+      <button class="close-btn" onclick="closePreview()">✕</button>
+    </div>
+    <div class="preview-content" id="previewContent"></div>
+  </aside>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
