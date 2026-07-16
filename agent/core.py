@@ -18,14 +18,25 @@ from agent import vault, skills
 
 class LessonPrepAgent:
     def __init__(self):
-        self.client = OpenAI(
-            api_key=DEEPSEEK_API_KEY,
-            base_url=DEEPSEEK_BASE_URL,
-        )
+        self.client = None
+        if DEEPSEEK_API_KEY:
+            self.client = OpenAI(
+                api_key=DEEPSEEK_API_KEY,
+                base_url=DEEPSEEK_BASE_URL,
+            )
         vault.init_vault()
+
+    def _ensure_client(self):
+        """确保客户端已初始化，否则抛出友好错误"""
+        if self.client is None:
+            raise RuntimeError(
+                "未配置 DeepSeek API Key，聊天功能暂时不可用。\n"
+                "请设置环境变量 DEEPSEEK_API_KEY 后重启服务。"
+            )
 
     def _call_llm(self, system_prompt: str, user_message: str, history: list[dict] = None) -> str:
         """同步调用 LLM"""
+        self._ensure_client()
         messages = [{"role": "system", "content": system_prompt}]
         if history:
             messages.extend(history[-MAX_HISTORY_MESSAGES:])
@@ -41,6 +52,7 @@ class LessonPrepAgent:
 
     def _call_llm_stream(self, system_prompt: str, user_message: str, history: list[dict] = None):
         """流式调用 LLM，逐块返回内容"""
+        self._ensure_client()
         messages = [{"role": "system", "content": system_prompt}]
         if history:
             messages.extend(history[-MAX_HISTORY_MESSAGES:])
